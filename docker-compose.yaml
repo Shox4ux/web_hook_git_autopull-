@@ -2,10 +2,9 @@ services:
   webhook:
     build: .
     container_name: webhook_local
-    ports:
-      - "9000:8000"
     env_file:
       - .env
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - .:/app
+      - ./opt/deploy:/opt/deploy
+    ports:
+      - "9000:8000"

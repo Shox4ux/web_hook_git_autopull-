@@ -24,11 +24,29 @@ async def webhook(request: Request):
     signature = request.headers.get("X-Hub-Signature-256")
     body = await request.body()
 
-    if not signature or not verify_signature(body, signature):
+    print("SIGNATURE HEADER:", signature)
+    print("RAW BODY:", body)
+
+    if not signature:
+        raise HTTPException(status_code=403, detail="Missing signature")
+
+    if not verify_signature(body, signature):
         raise HTTPException(status_code=403, detail="Invalid signature")
 
-    subprocess.Popen(
-        [DEPLOY_SCRIPT], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-    )
-
+    subprocess.Popen([DEPLOY_SCRIPT])
     return {"status": "deploy started"}
+
+
+# @app.post("/webhook")
+# async def webhook(request: Request):
+#     signature = request.headers.get("X-Hub-Signature-256")
+#     body = await request.body()
+
+#     if not signature or not verify_signature(body, signature):
+#         raise HTTPException(status_code=403, detail="Invalid signature")
+
+#     subprocess.Popen(
+#         [DEPLOY_SCRIPT], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+#     )
+
+#     return {"status": "deploy started"}

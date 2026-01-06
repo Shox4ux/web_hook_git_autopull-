@@ -10,7 +10,7 @@ WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
 if not WEBHOOK_SECRET:
     raise RuntimeError("WEBHOOK_SECRET is not set")
 
-DEPLOY_SCRIPT = "/opt/deploy/my_crm_deploy.sh"
+DEPLOY_SCRIPT = "/opt/deploy/deploy.sh"
 
 
 def verify_signature(payload: bytes, signature: str):

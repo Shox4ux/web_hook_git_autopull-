@@ -1,12 +1,22 @@
 #!/bin/bash
-set -e
 
-echo "===== DEPLOY START $(date) =====" >> /var/log/deploy.log
+echo "===== DEPLOY START ====="
+date
 
-cd crm_back
+CRM_DIR="/root/crm_back"
 
-git pull origin main
+if [ ! -d "$CRM_DIR" ]; then
+  echo "❌ crm_back directory NOT FOUND at $CRM_DIR"
+  exit 1
+fi
 
-docker compose up -d --build crm_back
+cd "$CRM_DIR" || exit 1
 
-echo "===== DEPLOY END $(date) =====" >> /var/log/deploy.log
+echo "📦 Pulling latest code"
+git pull
+
+echo "🐳 Rebuilding containers"
+docker compose down
+docker compose up -d --build
+
+echo "✅ DEPLOY FINISHED"

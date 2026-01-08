@@ -4,11 +4,10 @@ services:
     container_name: webhook_local
     env_file:
       - .env
-    # volumes:
-    #   - ./opt/deploy:/opt/deploy
     volumes:
       - ./opt/deploy:/opt/deploy
       - /root/crm_back:/root/crm_back
       - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.ssh:/root/.ssh:ro
     ports:
       - "9000:8000"

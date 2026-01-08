@@ -16,7 +16,6 @@ echo "📦 Pulling latest code"
 git pull
 
 echo "🐳 Rebuilding containers"
-docker compose down
-docker compose up -d --build
+docker-compose up -d --build
 
 echo "✅ DEPLOY FINISHED"
